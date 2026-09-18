@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "db-explorer": {
+      "command": "python3",
+      "args": [
+        "/Users/siddarthanayak/my-boss-project/db_explorer.py"
+      ]
+    }
+  }
+}
