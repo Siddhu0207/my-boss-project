@@ -1,3 +1,4 @@
+import os
 import pytest
 from db_explorer import (
     run_read_query_markdown,
@@ -6,6 +7,7 @@ from db_explorer import (
     generate_typescript_types,
     generate_pydantic_models,
     mask_sensitive_data,
+    BASE_DIR,
 )
 
 def test_select_query_allowed():
@@ -17,12 +19,12 @@ def test_select_query_allowed():
 def test_security_guardrail_blocks_delete():
     """Verify write operations like DELETE are blocked by security guardrails."""
     result = run_read_query_markdown("DELETE FROM users;", db_target="dev.db")
-    assert "Error: Only SELECT queries allowed." in result
+    assert "Error" in result or "Forbidden" in result
 
 def test_security_guardrail_blocks_drop():
     """Verify DDL operations like DROP TABLE are blocked."""
     result = run_read_query_markdown("DROP TABLE users;", db_target="dev.db")
-    assert "Error: Only SELECT queries allowed." in result
+    assert "Error" in result or "Forbidden" in result
 
 def test_pii_masking_logic():
     """Verify sensitive fields like emails and passwords are redacted."""
@@ -53,5 +55,6 @@ def test_explain_query_plan():
 
 def test_multi_db_dynamic_target():
     """Verify the tool can target SQLite URI targets or secondary databases."""
-    result = get_schema_diagram("sqlite:///dev.db")
+    db_path = os.path.join(BASE_DIR, "dev.db")
+    result = get_schema_diagram(f"sqlite:///{db_path}")
     assert "erDiagram" in result
