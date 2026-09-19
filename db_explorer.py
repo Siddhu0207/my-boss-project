@@ -3,6 +3,10 @@ from fastmcp import FastMCP
 from sqlalchemy import create_engine, inspect, text
 from sqlalchemy.engine import Engine
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DEV_DB_PATH = os.path.join(BASE_DIR, "dev.db")
+SAAS_DB_PATH = os.path.join(BASE_DIR, "saas.db")
+
 mcp = FastMCP("Universal Database Co-Pilot")
 
 def get_engine(db_target: str = "dev.db") -> Engine:
