@@ -1,7 +1,7 @@
 #  Database Co-Pilot — Universal MCP Server
 
 > **BOSS Console Hackathon Submission (EXTEND Track)**  
-> **Demo Video:** [Link to Your 2-Minute Demo Video Here]
+ 
 
 Database Co-Pilot is a secure, multi-engine Model Context Protocol (MCP) server built with **FastMCP** and **SQLAlchemy**. It transforms AI agents into developer-focused database administrators, enabling safe schema exploration, full-stack type generation (TypeScript & Pydantic v2), query performance analysis, and read-only data querying with automated PII masking.
 
