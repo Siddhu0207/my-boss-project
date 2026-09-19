@@ -1,2 +1,4 @@
 fastmcp
+sqlalchemy
+pydantic
 pytest
