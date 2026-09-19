@@ -49,6 +49,23 @@ my-boss-project/
 ├── requirements.txt        # Production dependencies
 └── README.md               # Architecture documentation & visual output previews
 
- 
+## ⚡ Installation & Quickstart
+
+### 1. Prerequisites
+* Python 3.10 or higher.
+* Git installed.
+
+### 2. Clone Repository & Set Up Virtual Environment
+```bash
+# Clone the repository
+git clone [https://github.com/Siddhu0207/my-boss-project.git](https://github.com/Siddhu0207/my-boss-project.git)
+cd my-boss-project
+
+# Create virtual environment
+python3 -m venv venv
+
+# Activate virtual environment (macOS/Linux)
+source venv/bin/activate
+# On Windows: .\venv\Scripts\Activate.ps1
  
     
