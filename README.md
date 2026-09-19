@@ -111,6 +111,20 @@ fastmcp dev db_explorer.py
 ```
 
 ---
+## Connecting to BOSS Console
+```json
+{
+  "mcpServers": {
+    "database-copilot": {
+      "command": "/PATH/TO/YOUR/my-boss-project/venv/bin/python",
+      "args": [
+        "/PATH/TO/YOUR/my-boss-project/db_explorer.py"
+      ],
+      "env": {}
+    }
+  }
+}
+```
 
 ##  Sample Tool Outputs
 
@@ -157,7 +171,8 @@ export interface Subscription {
   monthly_price: number;
 }
 ```
-
+> 💡 **Note for Evaluators:** Replace `/PATH/TO/YOUR/my-boss-project` with the absolute path to where you cloned this repository on your local machine.
+> 
 #### Python Pydantic v2 Models (`generate_pydantic_models`)
 
 ```python
