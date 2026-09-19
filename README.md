@@ -18,7 +18,7 @@ Giving AI agents raw, unconstrained database access poses major risks:
 
 ---
 ### Prerequisites in BOSS Console
-* BOSS Console installed and configured with an active LLM API key (e.g., OpenAI or Anthropic).
+* BOSS Console installed and configured with an active Gemini API key.
 
   
 ##  Key Features & MCP Tools
