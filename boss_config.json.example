@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "database-copilot": {
+      "command": "/PATH/TO/YOUR/my-boss-project/venv/bin/python",
+      "args": [
+        "/PATH/TO/YOUR/my-boss-project/db_explorer.py"
+      ],
+      "env": {}
+    }
+  }
+}
