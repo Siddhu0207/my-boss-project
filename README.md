@@ -17,7 +17,10 @@ Giving AI agents raw, unconstrained database access poses major risks:
 **Database Co-Pilot solves this by inserting a secure, intelligent abstraction layer between the AI agent and your database.**
 
 ---
+### Prerequisites in BOSS Console
+* BOSS Console installed and configured with an active LLM API key (e.g., OpenAI or Anthropic).
 
+  
 ##  Key Features & MCP Tools
 
 | Tool Name | Engine Support | Description |
