@@ -1,4 +1,4 @@
-# Database Co-Pilot (MCP Tool for BOSS Console)
+#  Database Co-Pilot — Universal MCP Server
 
 > **BOSS Console Hackathon Submission (EXTEND Track)**  
 > **Demo Video:** [Link to Your 2-Minute Demo Video Here]
@@ -7,7 +7,7 @@ Database Co-Pilot is a secure, multi-engine Model Context Protocol (MCP) server 
 
 ---
 
-## Problem & Solution
+##  Problem & Solution
 
 Giving AI agents raw, unconstrained database access poses major risks:
 1. **Accidental Data Loss:** Unrestricted write access can lead to destructive operations (`DROP`, `DELETE`, `UPDATE`).
@@ -17,7 +17,8 @@ Giving AI agents raw, unconstrained database access poses major risks:
 **Database Co-Pilot solves this by inserting a secure, intelligent abstraction layer between the AI agent and your database.**
 
 ---
-## Key Features & MCP Tools
+
+##  Key Features & MCP Tools
 
 | Tool Name | Engine Support | Description |
 | :--- | :--- | :--- |
@@ -28,7 +29,8 @@ Giving AI agents raw, unconstrained database access poses major risks:
 | `run_read_query_markdown` | Any SQL Engine | Safely executes `SELECT` queries, formats output into Markdown tables, and applies automated cell-level PII masking. |
 
 ---
-## Enterprise Security & Guardrails
+
+##  Enterprise Security & Guardrails
 
 * **Read-Only Enforcement:** Strictly blocks non-`SELECT` statements (`DELETE`, `DROP`, `UPDATE`, `INSERT`, `ALTER`) at the tool entry point.
 * **Automated PII Redaction:** The `mask_sensitive_data` engine inspects query outputs cell-by-cell before returning results:
@@ -38,7 +40,8 @@ Giving AI agents raw, unconstrained database access poses major risks:
 * **Universal Database Support:** Built on **SQLAlchemy**, supporting zero-setup local SQLite databases (`dev.db`, `saas.db`) alongside enterprise SQL connections (`postgresql://`, `mysql://`, `mssql://`).
 
 ---
-## Repository Structure
+
+##  Repository Structure
 
 ```text
 my-boss-project/
@@ -48,26 +51,33 @@ my-boss-project/
 ├── saas.db                 # Secondary sample dataset (Subscriptions, Billing)
 ├── requirements.txt        # Production dependencies
 └── README.md               # Architecture documentation & visual output previews
+```
 
-## ⚡ Installation & Quickstart
+---
+
+##  Installation & Quickstart
 
 ### 1. Prerequisites
-* Python 3.10 or higher.
+* Python 3.10 or higher installed.
 * Git installed.
 
 ### 2. Clone Repository & Set Up Virtual Environment
+
 ```bash
 # Clone the repository
 git clone [https://github.com/Siddhu0207/my-boss-project.git](https://github.com/Siddhu0207/my-boss-project.git)
 cd my-boss-project
 
-# Create virtual environment
+# Create a virtual environment
 python3 -m venv venv
 
-# Activate virtual environment (macOS/Linux)
+# Activate the virtual environment
+# On macOS / Linux:
 source venv/bin/activate
-# On Windows: .\venv\Scripts\Activate.ps1
- 
+# On Windows:
+# .\venv\Scripts\Activate.ps1
+```
+
 ### 3. Install Dependencies
 
 Upgrade `pip` and install all required Python packages listed in `requirements.txt`:
@@ -75,6 +85,7 @@ Upgrade `pip` and install all required Python packages listed in `requirements.t
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
+```
 
 ### 4. Run Automated Unit Tests
 
@@ -82,6 +93,7 @@ Execute the automated `pytest` suite to verify read-only guardrails, PII redacti
 
 ```bash
 pytest test_db_explorer.py -v
+```
 
 ### 5. Launch the MCP Server
 
@@ -93,6 +105,11 @@ python3 db_explorer.py
 
 # Or launch with the FastMCP interactive browser inspector UI
 fastmcp dev db_explorer.py
+```
+
+---
+
+##  Sample Tool Outputs
 
 ### 1. Schema ER Diagram (`get_schema_diagram`)
 
@@ -112,6 +129,9 @@ erDiagram
         TEXT plan_tier
         REAL monthly_price
     }
+```
+
+---
 
 ### 2. Full-Stack Code Generation
 
@@ -133,6 +153,28 @@ export interface Subscription {
   plan_tier: string;
   monthly_price: number;
 }
+```
+
+#### Python Pydantic v2 Models (`generate_pydantic_models`)
+
+```python
+from pydantic import BaseModel
+from typing import Optional
+
+class User(BaseModel):
+    id: int
+    name: str
+    email: str
+    password_hash: str
+
+class Subscription(BaseModel):
+    id: int
+    org_name: str
+    plan_tier: str
+    monthly_price: float
+```
+
+---
 
 ### 3. Safe Query Execution with Automated PII Masking (`run_read_query_markdown`)
 
@@ -148,6 +190,8 @@ Safely executes `SELECT` queries, formats output into clean Markdown tables, and
 | 1 | Alice Johnson | a***@example.com | ******** |
 | 2 | Bob Smith | b***@example.com | ******** |
 
+---
+
 ### 4. Query Plan Analysis (`explain_query_plan`)
 
 Runs dialect-aware `EXPLAIN` / `EXPLAIN QUERY PLAN` commands to help developers debug slow queries and inspect index performance:
@@ -160,8 +204,11 @@ Runs dialect-aware `EXPLAIN` / `EXPLAIN QUERY PLAN` commands to help developers 
 ```text
 Query Execution Plan:
 - SCAN TABLE subscriptions
+```
 
-## 🧪 Verification & Test Results
+---
+
+##  Verification & Test Results
 
 The repository includes an automated 9-case test suite powered by `pytest` to verify security guardrails (blocking `DELETE`/`DROP`), PII masking engines, schema diagrams, code generators, and dynamic database routing.
 
@@ -169,7 +216,11 @@ Run the test suite locally:
 
 ```bash
 pytest test_db_explorer.py -v
+```
 
+**Passing Test Logs:**
+
+```text
 test_db_explorer.py::test_select_query_allowed PASSED                   [ 11%]
 test_db_explorer.py::test_security_guardrail_blocks_delete PASSED       [ 22%]
 test_db_explorer.py::test_security_guardrail_blocks_drop PASSED         [ 33%]
@@ -180,4 +231,5 @@ test_db_explorer.py::test_generate_pydantic_models PASSED              [ 77%]
 test_db_explorer.py::test_explain_query_plan PASSED                     [ 88%]
 test_db_explorer.py::test_multi_db_dynamic_target PASSED                 [100%]
 
-============================== 9 passed in 0.12s ==============================   
+============================== 9 passed in 0.12s ==============================
+```
