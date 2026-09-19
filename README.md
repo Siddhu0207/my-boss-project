@@ -68,4 +68,116 @@ python3 -m venv venv
 source venv/bin/activate
 # On Windows: .\venv\Scripts\Activate.ps1
  
-    
+### 3. Install Dependencies
+
+Upgrade `pip` and install all required Python packages listed in `requirements.txt`:
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+
+### 4. Run Automated Unit Tests
+
+Execute the automated `pytest` suite to verify read-only guardrails, PII redaction, dynamic database targeting, and model generators:
+
+```bash
+pytest test_db_explorer.py -v
+
+### 5. Launch the MCP Server
+
+Start the Database Co-Pilot server using direct Python execution or launch the interactive FastMCP developer inspector:
+
+```bash
+# Direct execution
+python3 db_explorer.py
+
+# Or launch with the FastMCP interactive browser inspector UI
+fastmcp dev db_explorer.py
+
+### 1. Schema ER Diagram (`get_schema_diagram`)
+
+Generates visual Mermaid.js ER diagrams of database tables, column names, and data types for instant rendering:
+
+```mermaid
+erDiagram
+    users {
+        INTEGER id
+        TEXT name
+        TEXT email
+        TEXT password_hash
+    }
+    subscriptions {
+        INTEGER id
+        TEXT org_name
+        TEXT plan_tier
+        REAL monthly_price
+    }
+
+### 2. Full-Stack Code Generation
+
+Inspects column metadata and emits type-safe models for both frontend and backend development:
+
+#### TypeScript Interfaces (`generate_typescript_types`)
+
+```typescript
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  password_hash: string;
+}
+
+export interface Subscription {
+  id: number;
+  org_name: string;
+  plan_tier: string;
+  monthly_price: number;
+}
+
+### 3. Safe Query Execution with Automated PII Masking (`run_read_query_markdown`)
+
+Safely executes `SELECT` queries, formats output into clean Markdown tables, and automatically redacts sensitive customer data (emails, passwords, secret tokens) cell-by-cell:
+
+**Input Query:** `SELECT id, name, email, password_hash FROM users;`
+
+**Output:**  
+*Target Database:* `dev.db`
+
+| id | name | email | password_hash |
+| :--- | :--- | :--- | :--- |
+| 1 | Alice Johnson | a***@example.com | ******** |
+| 2 | Bob Smith | b***@example.com | ******** |
+
+### 4. Query Plan Analysis (`explain_query_plan`)
+
+Runs dialect-aware `EXPLAIN` / `EXPLAIN QUERY PLAN` commands to help developers debug slow queries and inspect index performance:
+
+**Input Query:** `SELECT * FROM subscriptions WHERE plan_tier = 'Enterprise';`
+
+**Output:**  
+*Target Database:* `saas.db` (Engine: SQLite)
+
+```text
+Query Execution Plan:
+- SCAN TABLE subscriptions
+
+## 🧪 Verification & Test Results
+
+The repository includes an automated 9-case test suite powered by `pytest` to verify security guardrails (blocking `DELETE`/`DROP`), PII masking engines, schema diagrams, code generators, and dynamic database routing.
+
+Run the test suite locally:
+
+```bash
+pytest test_db_explorer.py -v
+
+test_db_explorer.py::test_select_query_allowed PASSED                   [ 11%]
+test_db_explorer.py::test_security_guardrail_blocks_delete PASSED       [ 22%]
+test_db_explorer.py::test_security_guardrail_blocks_drop PASSED         [ 33%]
+test_db_explorer.py::test_pii_masking_logic PASSED                      [ 44%]
+test_db_explorer.py::test_get_schema_diagram PASSED                     [ 55%]
+test_db_explorer.py::test_generate_typescript_types PASSED              [ 66%]
+test_db_explorer.py::test_generate_pydantic_models PASSED              [ 77%]
+test_db_explorer.py::test_explain_query_plan PASSED                     [ 88%]
+test_db_explorer.py::test_multi_db_dynamic_target PASSED                 [100%]
+
+============================== 9 passed in 0.12s ==============================   
