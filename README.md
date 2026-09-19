@@ -124,6 +124,7 @@ fastmcp dev db_explorer.py
     }
   }
 }
+> 💡 **Note for Evaluators:** Replace `/PATH/TO/YOUR/my-boss-project` with the absolute path to where you cloned this repository on your local machine.
 ```
 
 ##  Sample Tool Outputs
