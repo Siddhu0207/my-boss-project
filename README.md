@@ -1,9 +1,116 @@
 # Database Co-Pilot (MCP Tool for BOSS Console)
 
-An MCP server extending Gemini CLI inside BOSS Console with automated schema visualization, TypeScript type generation, query performance analysis, and read-safe query execution.
+> **BOSS Console Hackathon Submission (EXTEND Track)**  
+> **Demo Video:** [Link to Your 2-Minute Demo Video Here]
 
-## Features
-- `get_schema_diagram`: Generates Mermaid ER diagrams.
-- `generate_typescript_types`: Generates TypeScript models.
-- `explain_query_plan`: Analyzes SQL query performance.
-- `run_read_query_markdown`: Formats SELECT query output in Markdown tables.
+Database Co-Pilot is a secure, multi-engine Model Context Protocol (MCP) server built with **FastMCP** and **SQLAlchemy**. It transforms AI agents into developer-focused database administrators, enabling safe schema exploration, full-stack type generation (TypeScript & Pydantic v2), query performance analysis, and read-only data querying with automated PII masking.
+
+---
+
+## Problem & Solution
+
+Giving AI agents raw, unconstrained database access poses major risks:
+1. **Accidental Data Loss:** Unrestricted write access can lead to destructive operations (`DROP`, `DELETE`, `UPDATE`).
+2. **PII & Data Leaks:** Sensitive customer fields (emails, passwords, API tokens) can contaminate LLM context windows and training logs.
+3. **Developer Friction:** Hand-writing TypeScript interfaces or Pydantic models from database schemas takes manual effort and introduces typing bugs.
+
+**Database Co-Pilot solves this by inserting a secure, intelligent abstraction layer between the AI agent and your database.**
+
+---
+## Key Features & MCP Tools
+
+| Tool Name | Engine Support | Description |
+| :--- | :--- | :--- |
+| `get_schema_diagram` | Any SQL Engine | Generates visual Mermaid.js ER diagrams of tables, columns, and data types for instant chat rendering. |
+| `generate_typescript_types` | Any SQL Engine | Inspects column metadata and emits type-safe TypeScript `interface` definitions for frontend apps. |
+| `generate_pydantic_models` | Any SQL Engine | Generates Python Pydantic v2 `BaseModel` classes mapped directly to table schemas for backend APIs. |
+| `explain_query_plan` | Dialect-Aware | Runs `EXPLAIN` / `EXPLAIN QUERY PLAN` commands to help developers debug slow queries and indexes. |
+| `run_read_query_markdown` | Any SQL Engine | Safely executes `SELECT` queries, formats output into Markdown tables, and applies automated cell-level PII masking. |
+
+---
+## Enterprise Security & Guardrails
+
+* **Read-Only Enforcement:** Strictly blocks non-`SELECT` statements (`DELETE`, `DROP`, `UPDATE`, `INSERT`, `ALTER`) at the tool entry point.
+* **Automated PII Redaction:** The `mask_sensitive_data` engine inspects query outputs cell-by-cell before returning results:
+  * **Emails:** Masked to `a***@domain.com` format.
+  * **Secrets & Credentials:** Fields matching `password`, `secret`, `token`, `ssn`, or `credit_card` are converted to `********`.
+* **Path Traversal Protection:** Enforces filename sanitization via `os.path.basename` to prevent unauthorized file system traversal.
+* **Universal Database Support:** Built on **SQLAlchemy**, supporting zero-setup local SQLite databases (`dev.db`, `saas.db`) alongside enterprise SQL connections (`postgresql://`, `mysql://`, `mssql://`).
+
+---
+## Repository Structure
+
+```text
+my-boss-project/
+├── db_explorer.py          # Core MCP server implementation (FastMCP + SQLAlchemy)
+├── test_db_explorer.py     # 9-case pytest validation suite
+├── dev.db                  # Primary sample dataset (Users, Products)
+├── saas.db                 # Secondary sample dataset (Subscriptions, Billing)
+├── requirements.txt        # Production dependencies
+└── README.md               # Architecture documentation & visual output previews
+
+## ⚡ Installation & Quickstart
+
+### 1. Prerequisites
+* Python 3.10 or higher installed.
+
+### 2. Clone Repository & Set Up Virtual Environment
+
+```bash
+# Clone the repository
+git clone [https://github.com/Siddhu0207/my-boss-project.git](https://github.com/Siddhu0207/my-boss-project.git)
+cd my-boss-project
+
+# Create a virtual environment
+python3 -m venv venv
+
+# Activate the virtual environment
+# On macOS / Linux:
+source venv/bin/activate
+# On Windows:
+# .\venv\Scripts\Activate.ps1
+
+### 3. Install Dependencies
+
+Upgrade `pip` and install all required Python packages listed in `requirements.txt`:
+
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+
+### 4. Run Automated Unit Tests
+
+Execute the automated `pytest` suite to verify read-only guardrails, PII redaction, dynamic database targeting, and model generators:
+
+```bash
+pytest test_db_explorer.py -v
+
+### 5. Launch the MCP Server
+
+Start the Database Co-Pilot server using direct Python execution or launch the interactive FastMCP developer inspector:
+
+```bash
+# Direct execution
+python3 db_explorer.py
+
+# Or launch with the FastMCP interactive browser inspector UI
+fastmcp dev db_explorer.py
+
+### 1. Schema ER Diagram (`get_schema_diagram`)
+
+Generates visual Mermaid.js ER diagrams of database tables, column names, and data types for instant rendering:
+
+```mermaid
+erDiagram
+    users {
+        INTEGER id
+        TEXT name
+        TEXT email
+        TEXT password_hash
+    }
+    subscriptions {
+        INTEGER id
+        TEXT org_name
+        TEXT plan_tier
+        REAL monthly_price
+    }
