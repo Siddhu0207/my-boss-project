@@ -1,4 +1,15 @@
-.gemini/
-*.pyc
+# Virtual Environment (CRITICAL)
+venv/
+.venv/
+env/
+
+# Python & Pytest Caches
 __pycache__/
+*.pyc
 .pytest_cache/
+
+# IDE & OS Artifacts
+.gemini/
+.DS_Store
+.vscode/
+.idea/
