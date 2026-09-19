@@ -124,9 +124,9 @@ fastmcp dev db_explorer.py
     }
   }
 }
-> 💡 **Note for Evaluators:** Replace `/PATH/TO/YOUR/my-boss-project` with the absolute path to where you cloned this repository on your local machine.
+ 
 ```
-
+> 💡 **Note for Evaluators:** Replace `/PATH/TO/YOUR/my-boss-project` with the absolute path to where you cloned this repository on your local machine.
 ##  Sample Tool Outputs
 
 ### 1. Schema ER Diagram (`get_schema_diagram`)
@@ -172,8 +172,7 @@ export interface Subscription {
   monthly_price: number;
 }
 ```
-> 💡 **Note for Evaluators:** Replace `/PATH/TO/YOUR/my-boss-project` with the absolute path to where you cloned this repository on your local machine.
-> 
+ 
 #### Python Pydantic v2 Models (`generate_pydantic_models`)
 
 ```python
