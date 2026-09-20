@@ -1,13 +1,12 @@
-#  Database Co-Pilot — Universal MCP Server
+# Database Co-Pilot — Universal MCP Server
 
-> **BOSS Console Hackathon Submission (EXTEND Track)**  
- 
+> **BOSS Console Hackathon Submission (EXTEND Track)**
 
 Database Co-Pilot is a secure, multi-engine Model Context Protocol (MCP) server built with **FastMCP** and **SQLAlchemy**. It transforms AI agents into developer-focused database administrators, enabling safe schema exploration, full-stack type generation (TypeScript & Pydantic v2), query performance analysis, and read-only data querying with automated PII masking.
 
 ---
 
-##  Problem & Solution
+## Problem & Solution
 
 Giving AI agents raw, unconstrained database access poses major risks:
 1. **Accidental Data Loss:** Unrestricted write access can lead to destructive operations (`DROP`, `DELETE`, `UPDATE`).
@@ -17,11 +16,13 @@ Giving AI agents raw, unconstrained database access poses major risks:
 **Database Co-Pilot solves this by inserting a secure, intelligent abstraction layer between the AI agent and your database.**
 
 ---
-### Prerequisites in BOSS Console
+
+## Prerequisites in BOSS Console
 * BOSS Console installed and configured with an active Gemini API key.
 
-  
-##  Key Features & MCP Tools
+---
+
+## Key Features & MCP Tools
 
 | Tool Name | Engine Support | Description |
 | :--- | :--- | :--- |
@@ -33,7 +34,7 @@ Giving AI agents raw, unconstrained database access poses major risks:
 
 ---
 
-##  Enterprise Security & Guardrails
+## Enterprise Security & Guardrails
 
 * **Read-Only Enforcement:** Strictly blocks non-`SELECT` statements (`DELETE`, `DROP`, `UPDATE`, `INSERT`, `ALTER`) at the tool entry point.
 * **Automated PII Redaction:** The `mask_sensitive_data` engine inspects query outputs cell-by-cell before returning results:
@@ -44,74 +45,87 @@ Giving AI agents raw, unconstrained database access poses major risks:
 
 ---
 
-##  Repository Structure
+## Repository Structure
 
 ```text
 my-boss-project/
-├── db_explorer.py          # Core MCP server implementation (FastMCP + SQLAlchemy)
-├── test_db_explorer.py     # 9-case pytest validation suite
-├── dev.db                  # Primary sample dataset (Users, Products)
-├── saas.db                 # Secondary sample dataset (Subscriptions, Billing)
-├── requirements.txt        # Production dependencies
-└── README.md               # Architecture documentation & visual output previews
+├── .gitignore               # Git ignore rules
+├── LICENSE                  # Repository open-source license
+├── README.md                # Architecture documentation & visual output previews
+├── boss_config.json.example # Configuration template for BOSS Console integration
+├── db_explorer.py           # Core MCP server implementation (FastMCP + SQLAlchemy)
+├── dev.db                   # Primary sample dataset (Users, Products)
+├── fetch_orders.py          # Test script for verifying SQL table joins
+├── mcp.json                 # MCP server specification manifesto
+├── requirements.txt         # Production Python dependencies
+├── run.sh                   # One-command automated setup script
+├── saas.db                  # Secondary sample dataset (Subscriptions, Billing)
+├── setup_dbs.py             # Database initialization and seeding script
+└── test_db_explorer.py      # 9-case pytest validation suite
 ```
 
 ---
 
-##  Installation & Quickstart
+## Installation & Quickstart
 
 ### 1. Prerequisites
 * Python 3.10 or higher installed.
 * Git installed.
 
-### 2. Clone Repository & Set Up Virtual Environment
+### 2. Clone Repository
 
 ```bash
-# Clone the repository
 git clone [https://github.com/Siddhu0207/my-boss-project.git](https://github.com/Siddhu0207/my-boss-project.git)
 cd my-boss-project
-
-# Create a virtual environment
-python3 -m venv venv
-
-# Activate the virtual environment
-# On macOS / Linux:
-source venv/bin/activate
-# On Windows:
-# .\venv\Scripts\Activate.ps1
 ```
 
-### 3. Install Dependencies
+### 3. Execution Options
 
-Upgrade `pip` and install all required Python packages listed in `requirements.txt`:
+#### Option A: One-Command Automated Setup (Recommended for Judges)
 
-```bash
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-### 4. Run Automated Unit Tests
-
-Execute the automated `pytest` suite to verify read-only guardrails, PII redaction, dynamic database targeting, and model generators:
+Run the script to automatically build the virtual environment, install packages, seed databases, and execute the complete test suite:
 
 ```bash
-pytest test_db_explorer.py -v
-```
-
-### 5. Launch the MCP Server
-
-Start the Database Co-Pilot server using direct Python execution or launch the interactive FastMCP developer inspector:
-
-```bash
-# Direct execution
-python3 db_explorer.py
-
-# Or launch with the FastMCP interactive browser inspector UI
-fastmcp dev db_explorer.py
+chmod +x run.sh
+./run.sh
 ```
 
 ---
+
+#### Option B: Manual Step-by-Step Execution
+
+If you prefer to run each step individually:
+
+```bash
+# 1. Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: .\venv\Scripts\Activate.ps1
+
+# 2. Install dependencies
+pip install --upgrade pip
+pip install -r requirements.txt
+
+# 3. Initialize and seed databases
+python setup_dbs.py
+
+# 4. Optional: Run table join verification script
+python fetch_orders.py
+
+# 5. Run test suite
+pytest test_db_explorer.py -v
+
+# 6. Launch MCP server directly
+python3 db_explorer.py
+# Or launch with the FastMCP interactive browser inspector UI:
+# fastmcp dev db_explorer.py
+```
+
+---
+
 ## Connecting to BOSS Console
+
+Register Database Co-Pilot in BOSS Console using the provided configuration template (`boss_config.json.example`):
+
 ```json
 {
   "mcpServers": {
@@ -124,10 +138,13 @@ fastmcp dev db_explorer.py
     }
   }
 }
- 
 ```
+
 > 💡 **Note for Evaluators:** Replace `/PATH/TO/YOUR/my-boss-project` with the absolute path to where you cloned this repository on your local machine.
-##  Sample Tool Outputs
+
+---
+
+## Sample Tool Outputs
 
 ### 1. Schema ER Diagram (`get_schema_diagram`)
 
@@ -172,7 +189,7 @@ export interface Subscription {
   monthly_price: number;
 }
 ```
- 
+
 #### Python Pydantic v2 Models (`generate_pydantic_models`)
 
 ```python
@@ -226,7 +243,7 @@ Query Execution Plan:
 
 ---
 
-##  Verification & Test Results
+## Verification & Test Results
 
 The repository includes an automated 9-case test suite powered by `pytest` to verify security guardrails (blocking `DELETE`/`DROP`), PII masking engines, schema diagrams, code generators, and dynamic database routing.
 
@@ -239,15 +256,13 @@ pytest test_db_explorer.py -v
 **Passing Test Logs:**
 
 ```text
-test_db_explorer.py::test_select_query_allowed PASSED                   [ 11%]
-test_db_explorer.py::test_security_guardrail_blocks_delete PASSED       [ 22%]
-test_db_explorer.py::test_security_guardrail_blocks_drop PASSED         [ 33%]
-test_db_explorer.py::test_pii_masking_logic PASSED                      [ 44%]
-test_db_explorer.py::test_get_schema_diagram PASSED                     [ 55%]
-test_db_explorer.py::test_generate_typescript_types PASSED              [ 66%]
-test_db_explorer.py::test_generate_pydantic_models PASSED              [ 77%]
-test_db_explorer.py::test_explain_query_plan PASSED                     [ 88%]
+test_db_explorer.py::test_select_query_allowed PASSED                    [ 11%]
+test_db_explorer.py::test_security_guardrail_blocks_delete PASSED        [ 22%]
+test_db_explorer.py::test_security_guardrail_blocks_drop PASSED          [ 33%]
+test_db_explorer.py::test_pii_masking_logic PASSED                       [ 44%]
+test_db_explorer.py::test_get_schema_diagram PASSED                      [ 55%]
+test_db_explorer.py::test_generate_typescript_types PASSED               [ 66%]
+test_db_explorer.py::test_generate_pydantic_models PASSED                [ 77%]
+test_db_explorer.py::test_explain_query_plan PASSED                      [ 88%]
 test_db_explorer.py::test_multi_db_dynamic_target PASSED                 [100%]
-
-============================== 9 passed in 0.12s ==============================
 ```
