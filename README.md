@@ -13,7 +13,7 @@ Giving AI agents raw, unconstrained database access poses major risks:
 2. **PII & Data Leaks:** Sensitive customer fields (emails, passwords, API tokens) can contaminate LLM context windows and training logs.
 3. **Developer Friction:** Hand-writing TypeScript interfaces or Pydantic models from database schemas takes manual effort and introduces typing bugs.
 
-**Database Co-Pilot solves this by inserting a secure, intelligent abstraction layer between the AI agent and  database.**
+**Database Co-Pilot solves this by inserting a secure, intelligent abstraction layer between the AI agent and your database.**
 
 ---
 
@@ -141,6 +141,20 @@ Register Database Co-Pilot in BOSS Console using the provided configuration temp
 ```
 
 > 💡 **Note for Evaluators:** Replace `/PATH/TO/YOUR/my-boss-project` with the absolute path to where you cloned this repository on your local machine.
+
+---
+
+## Testing the MCP Tools in BOSS Console
+
+Once registered in BOSS Console, you can test all 5 MCP tools using these natural language prompts or direct tool arguments:
+
+| Tool Name | Example Chat Prompt in BOSS Console | Direct Tool Arguments |
+| :--- | :--- | :--- |
+| `get_schema_diagram` | *"Show me the ER diagram for dev.db"* | `db_path: "dev.db"` |
+| `generate_typescript_types` | *"Generate TypeScript interfaces for dev.db"* | `db_path: "dev.db"` |
+| `generate_pydantic_models` | *"Generate Pydantic v2 models for saas.db"* | `db_path: "saas.db"` |
+| `explain_query_plan` | *"Explain the execution plan for query 'SELECT * FROM subscriptions WHERE plan_tier = 'Enterprise'' on saas.db"* | `db_path: "saas.db"`, `query: "SELECT * FROM subscriptions WHERE plan_tier = 'Enterprise'"` |
+| `run_read_query_markdown` | *"Run query 'SELECT id, name, email, password_hash FROM users' on dev.db"* | `db_path: "dev.db"`, `query: "SELECT id, name, email, password_hash FROM users"` |
 
 ---
 
