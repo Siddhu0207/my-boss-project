@@ -75,8 +75,8 @@ my-boss-project/
 ### 2. Clone Repository
 
 ```bash
-git clone [https://github.com/Siddhu0207/my-boss-project.git](https://github.com/Siddhu0207/my-boss-project.git)
-cd my-boss-project
+git clone https://github.com/Siddhu0207/my-boss-project.git
+ 
 ```
 
 ### 3. Execution Options
