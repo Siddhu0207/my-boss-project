@@ -72,11 +72,12 @@ my-boss-project/
 * Python 3.10 or higher installed.
 * Git installed.
 
- ### 2. Clone Repository
+### 2. Clone Repository
 
 ```bash
-git clone https://github.com/Siddhu0207/my-boss-project.git
+git clone [https://github.com/Siddhu0207/my-boss-project.git](https://github.com/Siddhu0207/my-boss-project.git)
 cd my-boss-project
+```
 
 ### 3. Execution Options
 
@@ -279,3 +280,4 @@ test_db_explorer.py::test_generate_pydantic_models PASSED                [ 77%]
 test_db_explorer.py::test_explain_query_plan PASSED                      [ 88%]
 test_db_explorer.py::test_multi_db_dynamic_target PASSED                 [100%]
 ```
+``` 
