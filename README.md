@@ -13,7 +13,7 @@ Giving AI agents raw, unconstrained database access poses major risks:
 2. **PII & Data Leaks:** Sensitive customer fields (emails, passwords, API tokens) can contaminate LLM context windows and training logs.
 3. **Developer Friction:** Hand-writing TypeScript interfaces or Pydantic models from database schemas takes manual effort and introduces typing bugs.
 
-**Database Co-Pilot solves this by inserting a secure, intelligent abstraction layer between the AI agent and your database.**
+**Database Co-Pilot solves this by inserting a secure, intelligent abstraction layer between the AI agent and database.**
 
 ---
 
